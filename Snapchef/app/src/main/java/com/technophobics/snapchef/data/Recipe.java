@@ -1,6 +1,5 @@
 package com.technophobics.snapchef.data;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
@@ -28,17 +27,17 @@ public class Recipe {
 
 
     public static Cursor containingGroceries(SQLiteDatabase db, List<Grocery> groceries) {
-        List<String> ingredients = new ArrayList<>();
+        List<String> ingredientIds = new ArrayList<>();
         List<String> selectFromLinks = Arrays.asList(linkFields);
         for (Grocery grocery : groceries) {
             int id = grocery.getIngredient().getID();
-            ingredients.add("'" + String.valueOf(id) + "'");
+            ingredientIds.add("'" + String.valueOf(id) + "'");
         }
 
         String query = "SELECT " + TextUtils.join(",", selectFromLinks)
                 + " from " + SushiContract.RecipeLink.TABLE_NAME
                 + " WHERE " + SushiContract.RecipeLink.COLUMN_NAME_INGREDIENT_ID
-                + " IN (" + TextUtils.join(",", ingredients) + ")";
+                + " IN (" + TextUtils.join(",", ingredientIds) + ")";
 
         return db.rawQuery(query, null);
     }
