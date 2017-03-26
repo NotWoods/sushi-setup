@@ -5,10 +5,10 @@
         "image": "http://www.fifteenspatulas.com/wp-content/uploads/2016/06/Homemade-Sushi-2-640x959.jpg",
         "link": "http://www.fifteenspatulas.com/homemade-sushi/",
         "ingredients": [
-            {"name": "Raw Salmon", "amount": 200},
             {"name": "Sushi Seaweed", "amount": 6},
+            {"name": "Rice", "amount": 1},
+            {"name": "Salmon", "amount": 200},
             {"name": "Avocado", "amount": 1},
-            {"name": "Sushi Rice", "amount": 1},
             {"name": "Cream Cheese", "amount": 100}
         ]
     },
@@ -18,10 +18,10 @@
         "image": "Yield: 4 rolls. Prep Time: 35 mins. Can substitute fake crab or smoked salmon.",
         "link": "http://allrecipes.com/recipe/99204/cucumber-and-avocado-sushi/",
         "ingredients": [
-            {"name": "Sushi Rice", "amount": 1},
+            {"name": "Sushi Seaweed", "amount": 4},
+            {"name": "Rice", "amount": 1},
             {"name": "Rice Vinegar", "amount": 2},
             {"name": "Salt", "amount": 0.5},
-            {"name": "Sushi Seaweed", "amount": 4},
             {"name": "Cucumber", "amount": 0.5},
             {"name": "Avocado", "amount": 1}
         ]
@@ -32,13 +32,13 @@
         "image": "http://theemotionalbaker.com/wp-content/uploads/2016/08/Sushi-9-768x1152.jpg",
         "link": "http://theemotionalbaker.com/2016/08/15/veggie-sushi/",
         "ingredients": [
-            {"name": "Sushi Rice", "amount": 1},
+            {"name": "Rice", "amount": 1},
             {"name": "Rice Vinegar", "amount": 2},
             {"name": "Salt", "amount": 0.5},
             {"name": "Cucumber", "amount": 1},
             {"name": "Carrot", "amount": 1},
             {"name": "Avocado", "amount": 1},
-            {"name": "Red Cabbage", "amount": 0.5},
+            {"name": "Cabbage", "amount": 0.5},
             {"name": "Sushi Seaweed", "amount": 3}
         ]
     },
@@ -64,7 +64,7 @@
         "ingredients": [
             {"name": "Sushi Seaweed", "amount": 2},
             {"name": "Carrot", "amount": 1},
-            {"name": "Sushi Rice", "amount": 0.5}
+            {"name": "Rice", "amount": 0.5}
         ]
     }
 ]
