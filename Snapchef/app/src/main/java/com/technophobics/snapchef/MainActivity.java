@@ -1,9 +1,14 @@
 package com.technophobics.snapchef;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.technophobics.snapchef.data.Grocery;
 import com.technophobics.snapchef.data.Ingredient;
@@ -18,10 +24,20 @@ import com.technophobics.snapchef.data.SushiHelper;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MainActivity extends AppCompatActivity {
+
+    // The URI of photo taken from gallery
+    private Uri mUriPhotoTaken;
+
+    // File of the photo taken with camera
+    private File mFilePhotoTaken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +52,25 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         ArrayList<String> GroceryItems = Ingredient.demoList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, GroceryItems);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ImageUri", mUriPhotoTaken);
+    }
+
+    // Recover the saved state when the activity is recreated.
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mUriPhotoTaken = savedInstanceState.getParcelable("ImageUri");
     }
 
     @Override
@@ -73,5 +94,50 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void takePhoto(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            // Save the photo taken to a temporary file.
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                mFilePhotoTaken = File.createTempFile(
+                        "IMG_",  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
+
+                // Create the File where the photo should go
+                // Continue only if the File was successfully created
+                if (mFilePhotoTaken != null) {
+                    mUriPhotoTaken = FileProvider.getUriForFile(this,
+                            "com.technophobics.snapchef",
+                            mFilePhotoTaken);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mUriPhotoTaken);
+
+                    // Finally start camera activity
+                    startActivityForResult(intent, 0);
+                }
+            } catch (IOException e) {
+                setInfo(e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Intent intent = new Intent();
+            intent.setData(Uri.fromFile(mFilePhotoTaken));
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
+
+    // Set the information panel on screen.
+    private void setInfo(String info) {
+        TextView textView = (TextView) findViewById(R.id.info);
+        textView.setText(info);
     }
 }
