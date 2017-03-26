@@ -9,6 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        List<String> myStringArray = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.list_item, myStringArray);
+
+        ListView listView = (ListView) findViewById(R.id.listview);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -36,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void activityScrollList(View v) {
-        Intent intent = new Intent(this,ScrollListActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
