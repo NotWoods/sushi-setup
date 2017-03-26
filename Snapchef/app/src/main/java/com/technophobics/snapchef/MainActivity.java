@@ -12,6 +12,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.technophobics.snapchef.data.Grocery;
+import com.technophobics.snapchef.data.Ingredient;
+import com.technophobics.snapchef.data.SushiHelper;
+
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        try {
+            SushiHelper.loadRecipes(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        List<String> myStringArray = new ArrayList<>();
+        ArrayList<String> GroceryItems = Ingredient.demoList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.list_item, myStringArray);
+                android.R.layout.simple_list_item_1, GroceryItems);
 
-        ListView listView = (ListView) findViewById(R.id.listview);
+        ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
     }
 
