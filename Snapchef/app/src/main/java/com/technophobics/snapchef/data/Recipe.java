@@ -73,6 +73,10 @@ public class Recipe {
         return Collections.unmodifiableMap(results);
     }
 
+    public static Map<Recipe, Float> containingGroceries() {
+        return containingGroceries(Grocery.listAll());
+    }
+
     /**
      * Decrements the amount of ingredients used from all the listed groceries
      */
