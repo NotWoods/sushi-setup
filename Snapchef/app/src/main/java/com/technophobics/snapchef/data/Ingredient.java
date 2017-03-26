@@ -1,5 +1,6 @@
 package com.technophobics.snapchef.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,10 @@ public class Ingredient {
 
     public static Ingredient get(String name) {
         return map.get(name.toLowerCase());
+    }
+
+    public static ArrayList<String> demoList() {
+        return new ArrayList<>(map.keySet());
     }
 
     @Override

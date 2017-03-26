@@ -37,6 +37,14 @@ public class Recipe {
         ingredients.put(ingredient, amount);
     }
 
+    public static ArrayList<String> demoList() {
+        ArrayList<String> result = new ArrayList<>();
+        for (Recipe r : list) {
+            result.add(r.getName());
+        }
+        return result;
+    }
+
     /**
      * Returns every recipe that contains a grocery ingredient.
      * @param groceries
