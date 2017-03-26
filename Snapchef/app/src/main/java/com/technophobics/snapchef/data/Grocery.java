@@ -31,6 +31,14 @@ public class Grocery {
         return Collections.unmodifiableList(new ArrayList<>(map.values()));
     }
 
+    public static ArrayList<String> listAllText() {
+        ArrayList<String> result = new ArrayList<>();
+        for (Grocery g : listAll()) {
+            result.add(g.getIngredient().getName() + " - x" + g.getAmount());
+        }
+        return result;
+    }
+
     public static Grocery incrementAmount(Ingredient ingredient) {
         Grocery result;
 
