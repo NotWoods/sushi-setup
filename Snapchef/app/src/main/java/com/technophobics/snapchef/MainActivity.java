@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.microsoft.projectoxford.vision.rest.VisionServiceException;
+import com.technophobics.snapchef.data.ComparableTag;
 import com.technophobics.snapchef.data.Grocery;
 import com.technophobics.snapchef.data.Ingredient;
 import com.technophobics.snapchef.data.RecipeDisplay;
@@ -26,7 +28,10 @@ import com.technophobics.snapchef.data.SushiHelper;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +153,21 @@ public class MainActivity extends AppCompatActivity {
             intent.setData(Uri.fromFile(mFilePhotoTaken));
             setResult(RESULT_OK, intent);
             //finish();
-            AnalyzeFood.analyze(mFilePhotoTaken);
+            try {
+                InputStream stream = new FileInputStream(mFilePhotoTaken);
+                List<ComparableTag> recipes = AnalyzeFood.analyze(stream);
+                Grocery.saveFromTags(recipes);
+                
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+
+            } catch (VisionServiceException e){
+                e.printStackTrace();
+
+            }
+
         }
     }
 
