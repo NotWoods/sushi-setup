@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,6 +76,14 @@ public class Recipe {
 
     public static Map<Recipe, Float> containingGroceries() {
         return containingGroceries(Grocery.listAll());
+    }
+
+    public static ArrayList<String> listAll() {
+        ArrayList<String> result = new ArrayList<>();
+        for (Map.Entry<Recipe, Float> entry : containingGroceries().entrySet()) {
+            result.add(entry.getKey().getName() + " - " + entry.getValue() + "%");
+        }
+        return result;
     }
 
     /**
