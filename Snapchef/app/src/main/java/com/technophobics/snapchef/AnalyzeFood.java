@@ -20,7 +20,7 @@ public class AnalyzeFood {
     static final String[] features = {"tags"};
     static final String[] details = {"food"};
 
-    List<ComparableTag> analyze(InputStream stream) throws VisionServiceException, IOException {
+    public static List<ComparableTag> analyze(InputStream stream) throws VisionServiceException, IOException {
         VisionServiceClient vision = new VisionServiceRestClient("");
 
         AnalysisResult result = vision.analyzeImage(stream, features, details);

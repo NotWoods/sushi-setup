@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.technophobics.snapchef.data.Grocery;
 import com.technophobics.snapchef.data.Ingredient;
+import com.technophobics.snapchef.data.RecipeDisplay;
 import com.technophobics.snapchef.data.SushiHelper;
 
 import org.json.JSONException;
@@ -101,28 +102,43 @@ public class MainActivity extends AppCompatActivity {
         if(intent.resolveActivity(getPackageManager()) != null) {
             // Save the photo taken to a temporary file.
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            try {
-                mFilePhotoTaken = File.createTempFile(
-                        "IMG_",  /* prefix */
-                        ".jpg",         /* suffix */
-                        storageDir      /* directory */
-                );
+//            try {
+//                mFilePhotoTaken = File.createTempFile(
+//                        "IMG_",  /* prefix */
+//                        ".jpg",         /* suffix */
+//                        storageDir      /* directory */
+//                );
+                mFilePhotoTaken = new File(storageDir.getPath());
+
 
                 // Create the File where the photo should go
                 // Continue only if the File was successfully created
                 if (mFilePhotoTaken != null) {
-                    mUriPhotoTaken = FileProvider.getUriForFile(this,
-                            "com.technophobics.snapchef",
-                            mFilePhotoTaken);
+//                    mUriPhotoTaken = FileProvider.getUriForFile(this,
+//                            "com.technophobics.snapchef",
+//                            mFilePhotoTaken);
+                    mUriPhotoTaken = Uri.fromFile(storageDir);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, mUriPhotoTaken);
 
                     // Finally start camera activity
                     startActivityForResult(intent, 0);
                 }
-            } catch (IOException e) {
-                setInfo(e.getMessage());
-            }
+//            } catch (IOException e) {
+//                setInfo(e.getMessage());
+//            }
         }
+    }
+
+    public void gotoRecipe(View view) {
+        FloatingActionButton btn = (FloatingActionButton)findViewById(R.id.fab2);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RecipeDisplay.class));
+            }
+        });
+
     }
 
     @Override
@@ -131,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setData(Uri.fromFile(mFilePhotoTaken));
             setResult(RESULT_OK, intent);
-            finish();
+            //finish();
+            AnalyzeFood.analyze(mFilePhotoTaken);
         }
     }
 
