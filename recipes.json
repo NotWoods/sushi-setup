@@ -1,0 +1,70 @@
+[
+    {
+        "name": "Salmon Avacodo Roll",
+        "description": "Yield: 6 rolls. Prep Time: 15 mins. Cheaper than restaurants.",
+        "image": "http://www.fifteenspatulas.com/wp-content/uploads/2016/06/Homemade-Sushi-2-640x959.jpg",
+        "link": "http://www.fifteenspatulas.com/homemade-sushi/",
+        "ingredients": [
+            {"name": "Raw Salmon", "amount": 200},
+            {"name": "Sushi Seaweed", "amount": 6},
+            {"name": "Avocado", "amount": 1},
+            {"name": "Sushi Rice", "amount": 1},
+            {"name": "Cream Cheese", "amount": 100}
+        ]
+    },
+    {
+        "name": "Cucumber and Avocado Sushi",
+        "description": "Yield: 4 rolls. Prep Time: 35 mins. Can substitute fake crab or smoked salmon.",
+        "image": "Yield: 4 rolls. Prep Time: 35 mins. Can substitute fake crab or smoked salmon.",
+        "link": "http://allrecipes.com/recipe/99204/cucumber-and-avocado-sushi/",
+        "ingredients": [
+            {"name": "Sushi Rice", "amount": 1},
+            {"name": "Rice Vinegar", "amount": 2},
+            {"name": "Salt", "amount": 0.5},
+            {"name": "Sushi Seaweed", "amount": 4},
+            {"name": "Cucumber", "amount": 0.5},
+            {"name": "Avocado", "amount": 1}
+        ]
+    },
+    {
+        "name": "Veggie Sushi",
+        "description": "Yield: 3 rolls. Healthy and light vegetarian recipe featuring avocado, carrot, cucumber and red cabbage.",
+        "image": "http://theemotionalbaker.com/wp-content/uploads/2016/08/Sushi-9-768x1152.jpg",
+        "link": "http://theemotionalbaker.com/2016/08/15/veggie-sushi/",
+        "ingredients": [
+            {"name": "Sushi Rice", "amount": 1},
+            {"name": "Rice Vinegar", "amount": 2},
+            {"name": "Salt", "amount": 0.5},
+            {"name": "Cucumber", "amount": 1},
+            {"name": "Carrot", "amount": 1},
+            {"name": "Avocado", "amount": 1},
+            {"name": "Red Cabbage", "amount": 0.5},
+            {"name": "Sushi Seaweed", "amount": 3}
+        ]
+    },
+
+    {
+        "name": "Nutella and Banana Sushi",
+        "description": "Serves: 2 people. Prep Time: 5 mins. Nutella and banana torillas small snacks.",
+        "image": "http://www.kidspot.com.au/kitchen/recipes/nutella-and-banana-sushi-3724",
+        "link": "http://www.kidspot.com.au/kitchen/recipes/nutella-and-banana-sushi-3724",
+        "ingredients": [
+            {"name": "Tortillas", "amount": 2},
+            {"name": "Nutella", "amount": 4},
+            {"name": "Banana", "amount": 2},
+            {"name": "Strawberry", "amount": 1}
+        ]
+    },
+
+    {
+        "name": "Sushi Penguin",
+        "description": "Yield: 3 little sushi penguins. Adorable, fun to make with friends, but guilty when eating it.",
+        "image": "http://3.bp.blogspot.com/-0N1TeNkDJkM/Ukp6RCXqmgI/AAAAAAAAIFA/IPasdi5gopo/s1600/IMG_8321.JPG",
+        "link": "http://www.learnwithplayathome.com/2013/10/sushi-penguin-fun-food-for-kids.html",
+        "ingredients": [
+            {"name": "Sushi Seaweed", "amount": 2},
+            {"name": "Carrot", "amount": 1},
+            {"name": "Sushi Rice", "amount": 0.5}
+        ]
+    }
+]
