@@ -16,14 +16,12 @@ import java.util.Set;
 public class Recipe {
     private static List<Recipe> list = new ArrayList<>();
 
-    private int id;
     private String name;
     private String description;
     private String image;
     private String link;
     private Map<Ingredient, Float> ingredients = new HashMap<>();
 
-    public int getID() { return id; }
     public String getName() { return name; }
     public String getDescription() { return description; }
     public Map<Ingredient, Float> getIngredients() { return Collections.unmodifiableMap(ingredients); }
@@ -31,33 +29,49 @@ public class Recipe {
     /**
      * Returns every recipe that contains a grocery ingredient.
      * @param groceries
-     * @return
+     * @return The float value represents a percentage (0-1). 100% means all the required ingredients
+     * are listed in the groceries. 0% means you have none of the required groceries, and
      */
-    public static List<Recipe> containingGroceries(List<Grocery> groceries) {
-        List<Ingredient> ingredientSet = new ArrayList<>();
-        List<Recipe> results = new ArrayList<>();
+    public static Map<Recipe, Float> containingGroceries(List<Grocery> groceries) {
+        Map<Ingredient, Grocery> ingredientMap = new HashMap<>();
+        Map<Recipe, Float> results = new HashMap<>();
 
-        for (Grocery g : groceries) ingredientSet.add(g.getIngredient());
+        for (Grocery g : groceries) ingredientMap.put(g.getIngredient(), g);
 
         for (Recipe recipe : list) {
-            int percentage = 0;
-
-            int portion = 0;
+            float portion = 0;
             for (Float f : recipe.ingredients.values()) portion += f;
-            portion /= recipe.ingredients.size();
+            portion = 1 / portion;
 
-            Set<Ingredient> intersection = recipe.getIngredients().keySet();
-            for (Ingredient ingredient : recipe.getIngredients().keySet()) {
-                if (ingredientSet.contains(ingredient)) percentage = 1;
+            float percentage = 0;
+            for (Map.Entry<Ingredient, Float> entry : recipe.ingredients.entrySet()) {
+                if (ingredientMap.containsKey(entry.getKey())) {
+                    Grocery grocery = ingredientMap.get(entry.getKey());
+                    Float amountRequired = entry.getValue();
+
+                    if (grocery.getAmount() >= amountRequired) {
+                        percentage += portion * amountRequired;
+                    } else {
+                        percentage += portion * grocery.getAmount();
+                    }
+                }
             }
 
-            if (percentage > 0) results.add(recipe);
+            if (percentage > 0) results.put(recipe, percentage);
         }
 
-        return Collections.unmodifiableList(results);
+        return Collections.unmodifiableMap(results);
     }
 
-    public static Map<Recipe, Integer> containingGroceriesPercent(List<Grocery> groceries) {
+    /**
+     * Decrements the amount of ingredients used from all the listed groceries
+     */
+    public void cook() {
+        for (Map.Entry<Ingredient, Float> entry : ingredients.entrySet()) {
+            Grocery grocery = Grocery.get(entry.getKey());
+            if (grocery == null) continue;
 
+            grocery.setAmount(Math.max(0, grocery.getAmount() - entry.getValue()));
+        }
     }
 }
