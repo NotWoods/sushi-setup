@@ -5,9 +5,11 @@ import com.microsoft.projectoxford.vision.VisionServiceRestClient;
 import com.microsoft.projectoxford.vision.contract.AnalysisResult;
 import com.microsoft.projectoxford.vision.contract.Tag;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
+import com.technophobics.snapchef.data.ComparableTag;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,10 +20,13 @@ public class AnalyzeFood {
     static final String[] features = {"tags"};
     static final String[] details = {"food"};
 
-    List<Tag> analyze(InputStream stream) throws VisionServiceException, IOException {
+    List<ComparableTag> analyze(InputStream stream) throws VisionServiceException, IOException {
         VisionServiceClient vision = new VisionServiceRestClient("");
 
         AnalysisResult result = vision.analyzeImage(stream, features, details);
-        return result.tags;
+        List<ComparableTag> list = new ArrayList<>();
+
+        for (Tag t : result.tags) list.add(new ComparableTag(t));
+        return list;
     }
 }

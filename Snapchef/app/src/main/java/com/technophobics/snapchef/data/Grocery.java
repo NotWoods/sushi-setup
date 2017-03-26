@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.ArrayMap;
 
+import com.microsoft.projectoxford.vision.contract.Tag;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class Grocery {
     static Map<Ingredient, Grocery> map = new HashMap<>();
 
     private Ingredient ingredient;
-    private float amount = 0;
+    private double amount = 0;
     private String image;
 
     Grocery(Ingredient ingredient) {
@@ -22,8 +24,8 @@ public class Grocery {
     }
 
     public Ingredient getIngredient() { return ingredient; }
-    public float getAmount() { return amount; }
-    public void setAmount(float value) { amount = value; }
+    public double getAmount() { return amount; }
+    public void setAmount(double value) { amount = value; }
 
     public static List<Grocery> listAll() {
         return Collections.unmodifiableList(new ArrayList<>(map.values()));
@@ -42,6 +44,10 @@ public class Grocery {
         return result;
     }
 
+    public static Grocery incrementAmount(String ingredientName) {
+        return incrementAmount(Ingredient.get(ingredientName));
+    }
+
     public static Grocery get(Ingredient ingredient) {
         return map.get(ingredient);
     }
@@ -51,5 +57,22 @@ public class Grocery {
     }
     public static void delete(Grocery grocery) {
         // TODO
+    }
+
+    /**
+     * Returns null if no corresponding ingredient was found
+     * @param tags
+     * @return
+     */
+    public static Grocery saveFromTags(List<ComparableTag> tags) {
+        Collections.sort(tags);
+        for (ComparableTag tag : tags) {
+            Ingredient ingredient = Ingredient.get(tag.name);
+            if (ingredient != null) {
+                return incrementAmount(ingredient);
+            }
+        }
+
+        return null;
     }
 }

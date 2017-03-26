@@ -14,17 +14,27 @@ import java.util.Map;
 import java.util.Set;
 
 public class Recipe {
-    private static List<Recipe> list = new ArrayList<>();
+    public static List<Recipe> list = new ArrayList<>();
 
     private String name;
     private String description;
     private String image;
     private String link;
-    private Map<Ingredient, Float> ingredients = new HashMap<>();
+    private Map<Ingredient, Double> ingredients = new HashMap<>();
+
+    public Recipe(String name, String description, String image, String link) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.link = link;
+    }
 
     public String getName() { return name; }
     public String getDescription() { return description; }
-    public Map<Ingredient, Float> getIngredients() { return Collections.unmodifiableMap(ingredients); }
+    public Map<Ingredient, Double> getIngredients() { return Collections.unmodifiableMap(ingredients); }
+    public void addIngredient(Ingredient ingredient, double amount) {
+        ingredients.put(ingredient, amount);
+    }
 
     /**
      * Returns every recipe that contains a grocery ingredient.
@@ -39,15 +49,15 @@ public class Recipe {
         for (Grocery g : groceries) ingredientMap.put(g.getIngredient(), g);
 
         for (Recipe recipe : list) {
-            float portion = 0;
-            for (Float f : recipe.ingredients.values()) portion += f;
+            double portion = 0;
+            for (Double f : recipe.ingredients.values()) portion += f;
             portion = 1 / portion;
 
             float percentage = 0;
-            for (Map.Entry<Ingredient, Float> entry : recipe.ingredients.entrySet()) {
+            for (Map.Entry<Ingredient, Double> entry : recipe.ingredients.entrySet()) {
                 if (ingredientMap.containsKey(entry.getKey())) {
                     Grocery grocery = ingredientMap.get(entry.getKey());
-                    Float amountRequired = entry.getValue();
+                    double amountRequired = entry.getValue();
 
                     if (grocery.getAmount() >= amountRequired) {
                         percentage += portion * amountRequired;
@@ -67,7 +77,7 @@ public class Recipe {
      * Decrements the amount of ingredients used from all the listed groceries
      */
     public void cook() {
-        for (Map.Entry<Ingredient, Float> entry : ingredients.entrySet()) {
+        for (Map.Entry<Ingredient, Double> entry : ingredients.entrySet()) {
             Grocery grocery = Grocery.get(entry.getKey());
             if (grocery == null) continue;
 

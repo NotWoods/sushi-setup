@@ -1,13 +1,26 @@
 package com.technophobics.snapchef.data;
 
-public class Ingredient {
-    private String name;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Ingredient(String name) {
+public class Ingredient {
+    public static Map<String, Ingredient> map = new HashMap<>();
+
+    private String name;
+    private String unit;
+
+    public Ingredient(String name, String unit) {
         this.name = name;
+        this.unit = unit;
     }
 
     public String getName() { return name; }
+    public String getNameLower() { return name.toLowerCase(); }
+    public String getUnit() { return unit; }
+
+    public static Ingredient get(String name) {
+        return map.get(name.toLowerCase());
+    }
 
     @Override
     public boolean equals(Object o) {
