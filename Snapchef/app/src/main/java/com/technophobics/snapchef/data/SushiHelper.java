@@ -30,6 +30,7 @@ public class SushiHelper {
     }
 
     public void loadIngredients(Context context) throws JSONException {
+        Ingredient.map.clear();
         JSONArray json = loadJSONFromAsset(context, "ingredients.json");
 
         for (int i = 0; i < json.length(); i++) {
@@ -43,6 +44,7 @@ public class SushiHelper {
 
     public void loadRecipes(Context context) throws JSONException {
         if (Ingredient.map.size() == 0) loadIngredients(context);
+        Recipe.list.clear();
         JSONArray json = loadJSONFromAsset(context, "recipes.json");
 
         for (int i = 0; i < json.length(); i++) {
