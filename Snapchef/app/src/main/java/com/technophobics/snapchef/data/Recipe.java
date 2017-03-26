@@ -6,39 +6,58 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Recipe {
+    private static List<Recipe> list = new ArrayList<>();
+
     private int id;
     private String name;
     private String description;
     private String image;
     private String link;
-
-    private static String[] linkFields = {
-            SushiContract.RecipeLink.COLUMN_NAME_RECIPE_ID,
-            SushiContract.RecipeLink.COLUMN_NAME_INGREDIENT_ID,
-            SushiContract.RecipeLink.COLUMN_NAME_AMOUNT,
-    };
+    private Map<Ingredient, Float> ingredients = new HashMap<>();
 
     public int getID() { return id; }
     public String getName() { return name; }
     public String getDescription() { return description; }
+    public Map<Ingredient, Float> getIngredients() { return Collections.unmodifiableMap(ingredients); }
 
+    /**
+     * Returns every recipe that contains a grocery ingredient.
+     * @param groceries
+     * @return
+     */
+    public static List<Recipe> containingGroceries(List<Grocery> groceries) {
+        List<Ingredient> ingredientSet = new ArrayList<>();
+        List<Recipe> results = new ArrayList<>();
 
-    public static Cursor containingGroceries(SQLiteDatabase db, List<Grocery> groceries) {
-        List<String> ingredientIds = new ArrayList<>();
-        List<String> selectFromLinks = Arrays.asList(linkFields);
-        for (Grocery grocery : groceries) {
-            int id = grocery.getIngredient().getID();
-            ingredientIds.add("'" + String.valueOf(id) + "'");
+        for (Grocery g : groceries) ingredientSet.add(g.getIngredient());
+
+        for (Recipe recipe : list) {
+            int percentage = 0;
+
+            int portion = 0;
+            for (Float f : recipe.ingredients.values()) portion += f;
+            portion /= recipe.ingredients.size();
+
+            Set<Ingredient> intersection = recipe.getIngredients().keySet();
+            for (Ingredient ingredient : recipe.getIngredients().keySet()) {
+                if (ingredientSet.contains(ingredient)) percentage = 1;
+            }
+
+            if (percentage > 0) results.add(recipe);
         }
 
-        String query = "SELECT " + TextUtils.join(",", selectFromLinks)
-                + " from " + SushiContract.RecipeLink.TABLE_NAME
-                + " WHERE " + SushiContract.RecipeLink.COLUMN_NAME_INGREDIENT_ID
-                + " IN (" + TextUtils.join(",", ingredientIds) + ")";
+        return Collections.unmodifiableList(results);
+    }
 
-        return db.rawQuery(query, null);
+    public static Map<Recipe, Integer> containingGroceriesPercent(List<Grocery> groceries) {
+
     }
 }

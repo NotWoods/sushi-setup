@@ -18,18 +18,10 @@ public class AnalyzeFood {
     static final String[] features = {"tags"};
     static final String[] details = {"food"};
 
-    List<Tag> analyze(InputStream stream) {
+    List<Tag> analyze(InputStream stream) throws VisionServiceException, IOException {
         VisionServiceClient vision = new VisionServiceRestClient("");
 
-        try {
-            AnalysisResult result = vision.analyzeImage(stream, features, details);
-            return result.tags;
-        } catch (VisionServiceException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        }
+        AnalysisResult result = vision.analyzeImage(stream, features, details);
+        return result.tags;
     }
-
-
 }
