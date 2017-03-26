@@ -26,7 +26,10 @@ public class AnalyzeFood {
         AnalysisResult result = vision.analyzeImage(stream, features, details);
         List<ComparableTag> list = new ArrayList<>();
 
-        for (Tag t : result.tags) list.add(new ComparableTag(t));
+        for (Tag t : result.tags) {
+            list.add(new ComparableTag(t));
+            System.out.print(t.name);
+        }
         return list;
     }
 }

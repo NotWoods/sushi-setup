@@ -76,7 +76,7 @@ public class Recipe {
                 }
             }
 
-            if (percentage > 0) results.put(recipe, percentage);
+            results.put(recipe, percentage);
         }
 
         return Collections.unmodifiableMap(results);

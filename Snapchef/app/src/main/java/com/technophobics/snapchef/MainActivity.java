@@ -7,8 +7,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,7 +20,7 @@ import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.technophobics.snapchef.data.ComparableTag;
 import com.technophobics.snapchef.data.Grocery;
 import com.technophobics.snapchef.data.Ingredient;
-import com.technophobics.snapchef.data.RecipeDisplay;
+import com.technophobics.snapchef.data.Recipe;
 import com.technophobics.snapchef.data.SushiHelper;
 
 import org.json.JSONException;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ArrayList<String> GroceryItems = Ingredient.demoList();
+        ArrayList<String> GroceryItems = Grocery.listAllText();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, GroceryItems);
 
@@ -135,14 +133,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoRecipe(View view) {
-        FloatingActionButton btn = (FloatingActionButton)findViewById(R.id.fab2);
+        // FloatingActionButton btn = (FloatingActionButton)findViewById(R.id.fab2);
+        Intent intent = new Intent(this, RecipeDisplay.class);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RecipeDisplay.class));
-            }
-        });
+        startActivity(intent);
 
     }
 
@@ -157,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 InputStream stream = new FileInputStream(mFilePhotoTaken);
                 List<ComparableTag> recipes = AnalyzeFood.analyze(stream);
                 Grocery.saveFromTags(recipes);
-                
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
